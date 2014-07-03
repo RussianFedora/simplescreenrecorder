@@ -51,7 +51,9 @@ rm -rf %{buildroot}
 %make_install
 rm -f %{buildroot}%{_libdir}/*.la
 desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
-
+sed -e 's/libssr-glinject.so/%{name}\/libssr-libgl.so/' %{buildroot}%{_bindir}/%{shortname}-glinject
+mkdir -p %{buildroot}%{_libdir}/%{name}
+mv %{buildroot}%{_libdir}/lib%{shortname}-glinject.so %{buildroot}%{_libdir}/%{name}/lib%{shortname}-glinject.so
 
 %files
 %doc COPYING README.md AUTHORS.md CHANGELOG.md notes.txt todo.txt
@@ -63,7 +65,7 @@ desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 
 %files libs
 %doc COPYING README.md AUTHORS.md CHANGELOG.md notes.txt todo.txt
-%{_libdir}/lib%{shortname}-glinject.so
+%{_libdir}/%{name}/lib%{shortname}-glinject.so
 
 %changelog
 * Thu Jul  3 2014 Ivan Epifanov <isage.dna@gmail.com> - 0.3.0-1.R
