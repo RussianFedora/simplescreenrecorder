@@ -1,13 +1,13 @@
 %define shortname ssr
 Name:           simplescreenrecorder
 Version:        0.3.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        SimpleScreenRecorder is a screen recorder for Linux
 
 License:        GPLv3
 URL:            http://www.maartenbaert.be/simplescreenrecorder/
 Source0:        https://github.com/MaartenBaert/ssr/archive/%{version}.tar.gz
-
+Patch0:         fix_ldpath.patch
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  ffmpeg-devel
@@ -37,6 +37,7 @@ This is a package for opengl capture
 
 %prep
 %setup -q -n %{shortname}-%{version}
+%patch0 -p1 -b .ldpath
 
 
 %build
@@ -51,7 +52,6 @@ rm -rf %{buildroot}
 %make_install
 rm -f %{buildroot}%{_libdir}/*.la
 desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
-sed -i -e 's/libssr-glinject.so/%{name}\/libssr-libgl.so/' %{buildroot}%{_bindir}/%{shortname}-glinject
 mkdir -p %{buildroot}%{_libdir}/%{name}
 mv %{buildroot}%{_libdir}/lib%{shortname}-glinject.so %{buildroot}%{_libdir}/%{name}/lib%{shortname}-glinject.so
 
@@ -66,6 +66,11 @@ mv %{buildroot}%{_libdir}/lib%{shortname}-glinject.so %{buildroot}%{_libdir}/%{n
 %files libs
 %doc COPYING README.md AUTHORS.md CHANGELOG.md notes.txt todo.txt
 %{_libdir}/%{name}/lib%{shortname}-glinject.so
+
+%changelog
+* Thu Jul  3 2014 Ivan Epifanov <isage.dna@gmail.com> - 0.3.0-2.R
+- Move gl-inject library to subdir
+
 
 %changelog
 * Thu Jul  3 2014 Ivan Epifanov <isage.dna@gmail.com> - 0.3.0-1.R
