@@ -51,7 +51,7 @@ rm -rf %{buildroot}
 %make_install
 rm -f %{buildroot}%{_libdir}/*.la
 desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
-sed -e 's/libssr-glinject.so/%{name}\/libssr-libgl.so/' %{buildroot}%{_bindir}/%{shortname}-glinject
+sed -i -e 's/libssr-glinject.so/%{name}\/libssr-libgl.so/' %{buildroot}%{_bindir}/%{shortname}-glinject
 mkdir -p %{buildroot}%{_libdir}/%{name}
 mv %{buildroot}%{_libdir}/lib%{shortname}-glinject.so %{buildroot}%{_libdir}/%{name}/lib%{shortname}-glinject.so
 
