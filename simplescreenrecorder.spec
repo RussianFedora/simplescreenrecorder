@@ -1,7 +1,7 @@
 %define shortname ssr
 Name:           simplescreenrecorder
-Version:        0.3.0
-Release:        2%{?dist}
+Version:        0.3.1
+Release:        1%{?dist}
 Summary:        SimpleScreenRecorder is a screen recorder for Linux
 
 License:        GPLv3
@@ -68,6 +68,9 @@ mv %{buildroot}%{_libdir}/lib%{shortname}-glinject.so %{buildroot}%{_libdir}/%{n
 %{_libdir}/%{name}/lib%{shortname}-glinject.so
 
 %changelog
+* Tue Dec 16 2014 Ivan Epifanov <isage.dna@gmail.com> - 0.3.1-1.R
+- Update to 0.3.1
+
 * Thu Jul  3 2014 Ivan Epifanov <isage.dna@gmail.com> - 0.3.0-2.R
 - Move gl-inject library to subdir
 
