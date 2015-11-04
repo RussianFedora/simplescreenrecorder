@@ -1,6 +1,6 @@
 %define shortname ssr
 Name:           simplescreenrecorder
-Version:        0.3.3
+Version:        0.3.6
 Release:        1%{?dist}
 Summary:        SimpleScreenRecorder is a screen recorder for Linux
 
@@ -62,12 +62,17 @@ mv %{buildroot}%{_libdir}/lib%{shortname}-glinject.so %{buildroot}%{_libdir}/%{n
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor/*/apps/%{name}*
 %{_bindir}/%{shortname}-glinject
+%{_mandir}/man1/%{name}.1.*
+%{_mandir}/man1/%{shortname}-glinject.1.*
 
 %files libs
 %doc COPYING README.md AUTHORS.md CHANGELOG.md notes.txt todo.txt
 %{_libdir}/%{name}/lib%{shortname}-glinject.so
 
 %changelog
+* Wed Nov  4 2015 Ivan Epifanov <isage.dna@gmail.com> - 0.3.6-1.R
+- Update to 0.3.6
+
 * Mon Mar 23 2015 Ivan Epifanov <isage.dna@gmail.com> - 0.3.3-1.R
 - Update to 0.3.3
 
