@@ -8,6 +8,7 @@ License:        GPLv3
 URL:            http://www.maartenbaert.be/simplescreenrecorder/
 Source0:        https://github.com/MaartenBaert/ssr/archive/%{version}.tar.gz
 Patch0:         fix_ldpath.patch
+Patch1:		simplescreenrecorder-0.3.6-fix-build.patch
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  ffmpeg-devel
@@ -38,6 +39,7 @@ This is a package for opengl capture
 %prep
 %setup -q -n %{shortname}-%{version}
 %patch0 -p1 -b .ldpath
+%patch1 -p1 -b .fix-build
 
 
 %build
