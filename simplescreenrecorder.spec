@@ -1,14 +1,14 @@
 %define shortname ssr
 Name:           simplescreenrecorder
 Version:        0.3.6
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        SimpleScreenRecorder is a screen recorder for Linux
 
 License:        GPLv3
 URL:            http://www.maartenbaert.be/simplescreenrecorder/
 Source0:        https://github.com/MaartenBaert/ssr/archive/%{version}.tar.gz
 Patch0:         fix_ldpath.patch
-Patch1:		simplescreenrecorder-0.3.6-fix-build.patch
+Patch1:         simplescreenrecorder-0.3.6-fix-build.patch
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  ffmpeg-devel
@@ -20,7 +20,9 @@ BuildRequires:  libX11-devel
 BuildRequires:  libXfixes-devel
 BuildRequires:  mesa-libGL-devel
 BuildRequires:  mesa-libGLU-devel
+
 Requires:       %{name}-libs%{?_isa} = %{version}-%{release}
+Requires:       hicolor-icon-theme
 
 %description
 SimpleScreenRecorder is a screen recorder for Linux.
@@ -37,39 +39,26 @@ It's 'simple' in the sense that it's easier to use than ffmpeg/avconv or VLC
 This is a package for opengl capture
 
 %prep
-%setup -q -n %{shortname}-%{version}
-%patch0 -p1 -b .ldpath
-%patch1 -p1 -b .fix-build
+%autosetup -p1 -n %{shortname}-%{version}
 
 
 %build
 export LDFLAGS="$LDFLAGS `pkg-config --libs-only-L libavformat libavcodec libavutil libswscale`"
 export CPPFLAGS="$CPPFLAGS `pkg-config --cflags-only-I libavformat libavcodec libavutil libswscale`"
 %configure
-make %{?_smp_mflags}
+%make_build
 
 
 %install
 rm -rf %{buildroot}
 %make_install
+
 rm -f %{buildroot}%{_libdir}/*.la
-desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 mkdir -p %{buildroot}%{_libdir}/%{name}
 mv %{buildroot}%{_libdir}/lib%{shortname}-glinject.so %{buildroot}%{_libdir}/%{name}/lib%{shortname}-glinject.so
 
-%files
-%doc COPYING README.md AUTHORS.md CHANGELOG.md notes.txt todo.txt
-%{_bindir}/%{name}
-%{_datadir}/%{name}
-%{_datadir}/applications/%{name}.desktop
-%{_datadir}/icons/hicolor/*/apps/%{name}*
-%{_bindir}/%{shortname}-glinject
-%{_mandir}/man1/%{name}.1.*
-%{_mandir}/man1/%{shortname}-glinject.1.*
-
-%files libs
-%doc COPYING README.md AUTHORS.md CHANGELOG.md notes.txt todo.txt
-%{_libdir}/%{name}/lib%{shortname}-glinject.so
+%check
+desktop-file-validate %{buildroot}/%{_datadir}/applications/%{name}.desktop
 
 %post
 /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
@@ -83,7 +72,26 @@ fi
 %posttrans
 /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
+%files
+%doc README.md AUTHORS.md CHANGELOG.md notes.txt todo.txt
+%license COPYING
+%{_bindir}/%{name}
+%{_datadir}/%{name}
+%{_datadir}/applications/%{name}.desktop
+%{_datadir}/icons/hicolor/*/apps/%{name}*
+%{_bindir}/%{shortname}-glinject
+%{_mandir}/man1/%{name}.1.*
+%{_mandir}/man1/%{shortname}-glinject.1.*
+
+%files libs
+%doc README.md AUTHORS.md CHANGELOG.md notes.txt todo.txt
+%license COPYING
+%{_libdir}/%{name}/lib%{shortname}-glinject.so
+
 %changelog
+* Fri Aug 26 2016 Vasiliy N. Glazov <vascom2@gmail.com> - 0.3.6-4
+- Clean spec
+
 * Tue Jun 14 2016 Arkady L. Shane <ashejn@russianfedora.pro> - 0.3.6-3.R
 - rebuilt against new ffmpeg
 
