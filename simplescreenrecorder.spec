@@ -1,7 +1,7 @@
 %define shortname ssr
 Name:           simplescreenrecorder
 Version:        0.3.6
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        SimpleScreenRecorder is a screen recorder for Linux
 
 License:        GPLv3
@@ -22,6 +22,7 @@ BuildRequires:  mesa-libGL-devel
 BuildRequires:  mesa-libGLU-devel
 
 Requires:       hicolor-icon-theme
+Obsoletes:      %{name}-libs
 
 %description
 SimpleScreenRecorder is a screen recorder for Linux.
@@ -75,7 +76,10 @@ fi
 %{_libdir}/%{name}/lib%{shortname}-glinject.so
 
 %changelog
-* Wed Sep 21 2016 Vasiliy N. Glazov <vascom2@gmail.com> - 0.3.6-5
+* Wed Sep 21 2016 Vasiliy N. Glazov <vascom2@gmail.com> - 0.3.6-6
+- Add obsoletes
+
+* Tue Sep 20 2016 Vasiliy N. Glazov <vascom2@gmail.com> - 0.3.6-5
 - Remove libs subpackage
 
 * Fri Aug 26 2016 Vasiliy N. Glazov <vascom2@gmail.com> - 0.3.6-4
