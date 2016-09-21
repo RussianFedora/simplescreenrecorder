@@ -1,7 +1,7 @@
 %define shortname ssr
 Name:           simplescreenrecorder
 Version:        0.3.6
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        SimpleScreenRecorder is a screen recorder for Linux
 
 License:        GPLv3
@@ -21,22 +21,12 @@ BuildRequires:  libXfixes-devel
 BuildRequires:  mesa-libGL-devel
 BuildRequires:  mesa-libGLU-devel
 
-Requires:       %{name}-libs%{?_isa} = %{version}-%{release}
 Requires:       hicolor-icon-theme
 
 %description
 SimpleScreenRecorder is a screen recorder for Linux.
 Despite the name, this program is actually quite complex.
 It's 'simple' in the sense that it's easier to use than ffmpeg/avconv or VLC
-
-%package libs
-Summary: SimpleScreenRecorder opengl injection library
-
-%description libs
-SimpleScreenRecorder is a screen recorder for Linux.
-Despite the name, this program is actually quite complex.
-It's 'simple' in the sense that it's easier to use than ffmpeg/avconv or VLC
-This is a package for opengl capture
 
 %prep
 %autosetup -p1 -n %{shortname}-%{version}
@@ -50,7 +40,6 @@ export CPPFLAGS="$CPPFLAGS `pkg-config --cflags-only-I libavformat libavcodec li
 
 
 %install
-rm -rf %{buildroot}
 %make_install
 
 rm -f %{buildroot}%{_libdir}/*.la
@@ -80,15 +69,15 @@ fi
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor/*/apps/%{name}*
 %{_bindir}/%{shortname}-glinject
+%{_libdir}/%{name}
 %{_mandir}/man1/%{name}.1.*
 %{_mandir}/man1/%{shortname}-glinject.1.*
-
-%files libs
-%doc README.md AUTHORS.md CHANGELOG.md notes.txt todo.txt
-%license COPYING
 %{_libdir}/%{name}/lib%{shortname}-glinject.so
 
 %changelog
+* Wed Sep 21 2016 Vasiliy N. Glazov <vascom2@gmail.com> - 0.3.6-5
+- Remove libs subpackage
+
 * Fri Aug 26 2016 Vasiliy N. Glazov <vascom2@gmail.com> - 0.3.6-4
 - Clean spec
 
